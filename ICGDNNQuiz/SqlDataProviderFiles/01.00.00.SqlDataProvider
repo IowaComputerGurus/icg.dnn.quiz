@@ -1,0 +1,480 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+/** Create Table **/
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+		(
+			[ModuleID] [int] NOT NULL,
+			[QuizId] [int] NOT NULL IDENTITY(1, 1),
+			[QuizTitle] VARCHAR(1000) NOT NULL,
+			[RoleName] VARCHAR(255) NOT NULL,
+			[RoleId] INT NOT NULL,
+			[PassPercentage] DECIMAL(5,2),
+			[IsPublished] [bit] NOT NULL
+		)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] 
+			ADD CONSTRAINT [PK_{objectQualifier}ICG_DQuiz_Quizzes] 
+				PRIMARY KEY NONCLUSTERED  ([QuizId])
+		CREATE CLUSTERED INDEX [IX_{objectQualifier}ICG_DQuiz_Quizzes] 
+			ON {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] 
+			(ModuleId, RoleId)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] WITH NOCHECK 
+			ADD CONSTRAINT [FK_{objectQualifier}ICG_DQuiz_Quizzes_{objectQualifier}Modules] 
+				FOREIGN KEY ([ModuleID]) 
+					REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID]) ON DELETE CASCADE NOT FOR REPLICATION
+	END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+		(
+			[ModuleID] [int] NOT NULL,
+			[QuizId] [int] NOT NULL,
+			[QuestionId] [int] NOT NULL IDENTITY(1, 1),
+			[Position] [int] NOT NULL,
+			[PromptText] [NTEXT] NOT NULL,
+			[Answer1] NVARCHAR(500),
+			[Answer2] NVARCHAR(500),
+			[Answer3] NVARCHAR(500),
+			[Answer4] NVARCHAR(500),
+			[Answer5] NVARCHAR(500),
+			[CorrectAnswer] NVARCHAR(500)
+		)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions] 
+			ADD CONSTRAINT [PK_{objectQualifier}ICG_DQuiz_QuizQuestions] 
+				PRIMARY KEY NONCLUSTERED  ([QuestionId])
+				
+		CREATE CLUSTERED INDEX [IX_{objectQualifier}ICG_DQuiz_QuizQuestions] 
+			ON {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions] 
+			(QuizId, ModuleId)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions] WITH NOCHECK 
+			ADD CONSTRAINT [FK_{objectQualifier}ICG_DQuiz_QuizQuestions_{objectQualifier}ICG_DQuiz_Quizzes] 
+				FOREIGN KEY ([QuizId]) 
+					REFERENCES {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] ([QuizId]) ON DELETE CASCADE NOT FOR REPLICATION
+	END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuestionAnswers]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuestionAnswers]
+		(
+			[ResultId] INT NOT NULL,
+			[QuestionId] [int] NOT NULL,
+			[AnswerId] [int] NOT NULL IDENTITY(1, 1),
+			[UserId] [int] NOT NULL,
+			[Answer] NVARCHAR(500),
+			[WasCorrect] [bit] NOT NULL
+		)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuestionAnswers] 
+			ADD CONSTRAINT [PK_{objectQualifier}ICG_DQuiz_UserQuestionAnswers] 
+				PRIMARY KEY NONCLUSTERED  ([AnswerId])
+				
+		CREATE CLUSTERED INDEX [IX_{objectQualifier}ICG_DQuiz_UserQuestionAnswers] 
+			ON {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuestionAnswers] 
+			(ResultId, QuestionId, UserId)
+	END
+GO
+
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults]
+		(
+			[QuizId] [int] NOT NULL,
+			[ResultId] [int] NOT NULL IDENTITY(1, 1),
+			[UserId] [int] NOT NULL,
+			[NumberCorrect] [int] NOT NULL,
+			[NumberIncorrect] [int] NOT NULL,
+			[Percentage] DECIMAL(5,2),
+			[Passed] BIT NOT NULL,
+			[ExpirationDate] DATETIME,
+			[ReminderSent] BIT NOT NULL,
+			[IsMostCurrent] BIT NOT NULL
+		)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] 
+			ADD CONSTRAINT [PK_{objectQualifier}ICG_DQuiz_UserQuizResults] 
+				PRIMARY KEY NONCLUSTERED  ([ResultId])
+				
+		CREATE CLUSTERED INDEX [IX_{objectQualifier}ICG_DQuiz_UserQuizResults] 
+			ON {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] 
+			(QuizId, UserId, passed, remindersent)
+
+		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] WITH NOCHECK 
+			ADD CONSTRAINT [FK_{objectQualifier}ICG_DQuiz_UserQuizResults_{objectQualifier}ICG_DQuiz_Quizzes] 
+				FOREIGN KEY ([QuizId]) 
+					REFERENCES {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] ([QuizId]) ON DELETE CASCADE NOT FOR REPLICATION
+	END
+GO
+
+
+
+
+/** Drop Existing Stored Procedures **/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizById]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizById]
+	@QuizId INT,
+	@ModuleId INT
+AS
+SELECT 
+	QuizId,
+	ModuleId,
+	QuizTitle,
+	RoleName,
+	RoleId,
+	PassPercentage,
+	IsPublished
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+WHERE QuizId = @QuizId
+	AND ModuleId = @ModuleId
+	
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]
+	@QuizId INT,
+	@ModuleId INT,
+	@QuizTitle VARCHAR(1000),
+	@RoleName VARCHAR(255),
+	@RoleId INT,
+	@PassPercentage DECIMAL(5,2),
+	@IsPublished BIT
+AS
+IF (@QuizId = -1)
+BEGIN
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+		(ModuleId, QuizTitle, RoleName, RoleId, PassPercentage, IsPublished)
+		VALUES
+			(@ModuleId, @QuizTitle, @RoleName, @RoleId, @PassPercentage, @IsPublished)
+			
+	SELECT SCOPE_IDENTITY()
+END
+ELSE
+BEGIN
+	UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+	SET QuizTitle = @QuizTitle,
+		RoleName = @RoleName,
+		RoleId = @RoleId,
+		PassPercentage = @PassPercentage,
+		IsPublished = @IsPublished
+	WHERE QuizId = @QuizId
+	
+	SELECT @QuizId
+END
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_MoveQuestion]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}{objectQualifier}ICG_DQuiz_MoveQuestion
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_MoveQuestion]
+	@QuestionId INT,
+	@ModuleId INT,
+	@MoveValue INT
+AS
+DECLARE @CurrentPosition INT
+DECLARE @QuizId INT
+DECLARE @NewPosition INT
+DECLARE @SwapQuestionId INT
+
+--Get the current and new position values
+SELECT @CurrentPosition = Position,
+		@QuizId = QuizId
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+WHERE QuestionId = @QuestionId
+	AND ModuleId = @ModuleId
+
+--Calculate the new position
+SET @NewPosition = @CurrentPosition + @MoveValue
+
+--Get the current id of the element in the new position
+SELECT @SwapQuestionId = QuestionId
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+WHERE QuizId = @QuizId
+	AND Position = @NewPosition
+	
+--Run the updates
+UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+SET Position = @NewPosition
+WHERE QuestionId = @QuestionId
+
+UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+SET Position = @CurrentPosition
+WHERE QuestionId = @SwapQuestionId
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_WC_DeleteQuestion]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_WC_DeleteQuestion]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_WC_DeleteQuestion]
+	@QuestionId INT,
+	@ModuleId INT
+AS
+--Get current position
+DECLARE @CurrentPosition INT
+SELECT @CurrentPosition = Position
+FROM {databaseOwner}[{objectQualifier}ICG_WC_QuizQuestions]
+WHERE Questionid = @QuestionId
+	AND ModuleId = @ModuleId
+	
+--Now remove the record
+DELETE FROM {databaseOwner}[{objectQualifier}ICG_WC_QuizQuestions]
+WHERE Questionid = @QuestionId
+	AND ModuleId = @ModuleId
+	
+--Lastly update all existing elements, with a position greater than the current to move them up
+UPDATE {databaseOwner}[{objectQualifier}ICG_WC_QuizQuestions]
+SET	Position = B.Position - 1
+FROM {databaseOwner}[{objectQualifier}ICG_WC_QuizQuestions] B
+WHERE B.Position > @CurrentPosition
+	
+GO
+
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuestion]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuestion]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuestion]
+	@QuestionId INT,
+	@QuizId INT,
+	@ModuleId INT,
+	@PromptText NTEXT,
+	@Answer1 NVARCHAR(500),
+	@Answer2 NVARCHAR(500),
+	@Answer3 NVARCHAR(500),
+	@Answer4 NVARCHAR(500),
+	@Answer5 NVARCHAR(500),
+	@CorrectAnswer NVARCHAR(500)
+AS
+IF(@QuestionId = -1)
+BEGIN
+	--Insert, caluclate the position
+	DECLARE @MaxPosition INT
+	
+	SELECT @MaxPosition = ISNULL(MAX(Position),0)
+	FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+	WHERE QuizId = @QuizId
+		AND ModuleId = @ModuleId
+		
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+		(QuizId, ModuleId, Position, PromptText, Answer1, Answer2, Answer3, Answer4, Answer5, CorrectAnswer)
+	VALUES
+		(@QuizId, @ModuleId, @MaxPosition + 1, @PromptText, @Answer1, @Answer2, @Answer3, @Answer4, @Answer5, @CorrectAnswer)
+END
+ELSE
+BEGIN
+	--Update
+	UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+	SET	PromptText = @PromptText,
+		Answer1 = @Answer1,
+		Answer2 = @Answer2,
+		Answer3 = @Answer3,
+		Answer4 = @Answer4,
+		Answer5 = @Answer5,
+		CorrectAnswer = @CorrectAnswer
+	WHERE QuestionId = @QuestionId
+		AND ModuleId = @ModuleId
+END
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestions]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestions]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestions]
+	@QuizId INT,
+	@ModuleId INT
+AS
+SELECT
+	QuestionId,
+	QuizId,
+	ModuleId,
+	Position,
+	PromptText,
+	Answer1,
+	Answer2,
+	Answer3,
+	Answer4,
+	Answer5,
+	CorrectAnswer
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+WHERE QuizId = @QuizId
+	AND ModuleId = @ModuleId
+Order By Position
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestion]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestion]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestion]
+	@QuestionId INT,
+	@ModuleId INT
+AS
+SELECT
+	QuestionId,
+	QuizId,
+	ModuleId,
+	Position,
+	PromptText,
+	Answer1,
+	Answer2,
+	Answer3,
+	Answer4,
+	Answer5,
+	CorrectAnswer
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+WHERE QuestionId = @QuestionId
+	AND ModuleId = @ModuleId
+Order By Position
+
+GO
+
+
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_SaveUserQuestionAnswer]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveUserQuestionAnswer]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveUserQuestionAnswer]
+	@ResultId INT,
+	@QuestionId INT,
+	@UserId INT,
+	@Answer NVARCHAR(500),
+	@WasCorrect BIT
+AS
+INSERT INTO {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuestionAnswers]
+	(ResultId, QuestionId, UserId, Answer, WasCorrect)
+VALUES
+	(@ResultId, @QuestionId, @UserId, @Answer, @WasCorrect)
+	
+GO
+
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_SaveUserQuizResults]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveUserQuizResults]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveUserQuizResults]
+	@QuizId INT,
+	@UserId INT,
+	@NumberCorrect INT,
+	@NumberIncorrect INT,
+	@Percentage DECIMAL(5,2),
+	@Passed BIT,
+	@ExpirationDate DATETIME,
+	@ReminderSent BIT,
+	@IsMostCurrent BIT
+AS
+--IF MOST CURRENT, set old ones to false
+IF (@IsMostCurrent = 1)
+BEGIN
+	UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults]
+	SET IsMostCurrent = 0
+	WHERE QuizId = @QuizId
+		AND UserId = @UserId
+END
+
+--Now insert
+INSERT INTO {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults]
+	(QuizId, UserId, NumberCorrect, NumberIncorrect, [Percentage], Passed, ExpirationDate, ReminderSent, IsMostCurrent)
+	VALUES
+	(@QuizId, @UserId, @NumberCorrect, @NumberIncorrect, @Percentage, @Passed, @ExpirationDate, @ReminderSent, @IsMostCurrent)
+
+SELECT SCOPE_IDENTITY()
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]
+	@UserId INT,
+	@ModuleId INT
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	INNER JOIN {databaseOwner}[{objectQualifier}UserRoles] UsrRole
+		ON (Q.RoleId = UsrRole.RoleId AND UsrRole.UserId = @UserId)
+	LEFT OUTER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+			AND UR.IsMostCurrent = 1
+			AND UR.UserId = @UserId)
+WHERE Q.ModuleId = @ModuleId
+	AND Q.IsPublished = 1
+ORDER BY Q.QuizTitle
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]
+	@UserId INT,
+	@ModuleId INT
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	LEFT OUTER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+				AND UR.IsMostCurrent = 1
+				AND UR.UserId = @UserId)
+WHERE Q.ModuleId = @ModuleId
+ORDER BY Q.QuizTitle
+
+GO
+	
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

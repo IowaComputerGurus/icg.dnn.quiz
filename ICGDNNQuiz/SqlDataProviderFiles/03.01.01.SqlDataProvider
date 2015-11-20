@@ -1,0 +1,25 @@
+﻿if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizById]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizById]
+	@QuizId INT,
+	@ModuleId INT
+AS
+SELECT 
+	QuizId,
+	ModuleId,
+	QuizTitle,
+	RoleName,
+	RoleId,
+	PassPercentage,
+	IsPublished,
+	CanExpire,
+	ExpireDuration,
+	RoleToAdd
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+WHERE QuizId = @QuizId
+	AND ModuleId = @ModuleId
+	
+GO
+

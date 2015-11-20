@@ -1,0 +1,39 @@
+﻿.CompletionCertificate
+{
+	width: 500px;
+	height: 300px;
+	background-color: #eeeeee;
+}
+
+.CompletionHeader
+{
+	display:block;
+	font-size: 120%;
+	font-weight: bold;
+	text-align: center;
+	padding-top:20px;
+}
+
+.CompletionNotice
+{
+	padding: 25px 10px;
+	text-align: center;
+	display:block;
+}
+
+.QuizInformation
+{
+	display: block;
+	padding: 15px 15px 10px 15px;
+}
+
+.InformationHeader
+{
+	font-weight: bold;
+	width: 100px;
+}
+
+.Information
+{
+	padding-bottom:10px;
+}

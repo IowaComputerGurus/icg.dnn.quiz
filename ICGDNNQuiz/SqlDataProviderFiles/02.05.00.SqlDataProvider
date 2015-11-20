@@ -1,0 +1,59 @@
+﻿ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+	ALTER COLUMN QuizTitle NVARCHAR(1000) NOT NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+	ALTER COLUMN RoleName NVARCHAR(255) NOT NULL
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]
+	@QuizId INT,
+	@ModuleId INT,
+	@QuizTitle NVARCHAR(1000),
+	@RoleName NVARCHAR(255),
+	@RoleId INT,
+	@PassPercentage DECIMAL(5,2),
+	@IsPublished BIT
+AS
+IF (@QuizId = -1)
+BEGIN
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+		(ModuleId, QuizTitle, RoleName, RoleId, PassPercentage, IsPublished)
+		VALUES
+			(@ModuleId, @QuizTitle, @RoleName, @RoleId, @PassPercentage, @IsPublished)
+			
+	SELECT SCOPE_IDENTITY()
+END
+ELSE
+BEGIN
+	UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+	SET QuizTitle = @QuizTitle,
+		RoleName = @RoleName,
+		RoleId = @RoleId,
+		PassPercentage = @PassPercentage,
+		IsPublished = @IsPublished
+	WHERE QuizId = @QuizId
+	
+	SELECT @QuizId
+END
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_DeleteQuestion]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_DeleteQuestion]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_DeleteQuestion]
+	@QuestionId INT,
+	@ModuleId INT
+AS
+DELETE FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+WHERE QuestionId = @Questionid
+	AND ModuleId = @ModuleId
+
+GO
+

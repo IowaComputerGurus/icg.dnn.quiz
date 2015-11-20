@@ -1,0 +1,156 @@
+if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_Settings]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+	BEGIN
+		CREATE TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Settings]
+		(
+			EmailTemplate NTEXT
+		)
+	END
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForNotification]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForNotification]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForNotification]
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate,
+	U.FirstName,
+	U.LastName,
+	U.Email,
+	U.UserId,
+	UR.ResultId
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	INNER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+			AND UR.IsMostCurrent = 1
+			AND UR.Passed = 1
+			AND UR.ReminderSent = 0)
+	INNER JOIN {databaseOwner}[{objectQualifier}users] U
+		ON (UR.UserId = U.UserId)
+WHERE Q.IsPublished = 1
+	AND UR.ExpirationDate < DATEADD(dd, 30, GETDATE())
+ORDER BY Q.QuizTitle
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_RecordNotificationSent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_RecordNotificationSent]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_RecordNotificationSent]
+	@ResultId INT
+AS
+UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults]
+SET ReminderSent = 1
+WHERE ResultId = @ResultId
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]
+	@UserId INT,
+	@ModuleId INT
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate,
+	ISNULL(UR.ResultId, -1) AS "ResultId"
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	INNER JOIN {databaseOwner}[{objectQualifier}UserRoles] UsrRole
+		ON (Q.RoleId = UsrRole.RoleId AND UsrRole.UserId = @UserId)
+	LEFT OUTER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+			AND UR.IsMostCurrent = 1
+			AND UR.UserId = @UserId)
+WHERE Q.ModuleId = @ModuleId
+	AND Q.IsPublished = 1
+ORDER BY Q.QuizTitle
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]
+	@UserId INT,
+	@ModuleId INT
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate,
+	ISNULL(UR.ResultId, -1) AS "ResultId"
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	LEFT OUTER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+				AND UR.IsMostCurrent = 1
+				AND UR.UserId = @UserId)
+WHERE Q.ModuleId = @ModuleId
+ORDER BY Q.QuizTitle
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetSettings]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetSettings]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetSettings]
+AS
+SELECT 
+	EmailTemplate
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Settings]
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_SaveSettings]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveSettings]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveSettings]
+	@EmailTemplate NTEXT
+AS
+IF EXISTS(SELECT * FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Settings] )
+BEGIN
+	UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_Settings]
+	SET EmailTemplate = @EmailTemplate
+END
+ELSE
+BEGIN
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_DQuiz_Settings]
+	VALUES (@EmailTemplate)
+END
+
+GO
+
+
+
+

@@ -1,0 +1,4 @@
+﻿<h2>Version 03.00.00</h2>
+
+<p>This was a major release focused on bring the module current with DNN 5.x development standards and addressing a number of key issues and feature requests.</p>
+

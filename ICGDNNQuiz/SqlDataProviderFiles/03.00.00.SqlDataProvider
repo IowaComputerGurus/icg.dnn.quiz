@@ -1,0 +1,286 @@
+﻿ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+	ADD CanExpire BIT NOT NULL DEFAULT 0
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+	ADD ExpireDuration INT NOT NULL DEFAULT 365
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+	ADD RoleToAdd VARCHAR(255) DEFAULT '-1'
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]
+	@QuizId INT,
+	@ModuleId INT,
+	@QuizTitle NVARCHAR(1000),
+	@RoleName NVARCHAR(255),
+	@RoleId INT,
+	@PassPercentage DECIMAL(5,2),
+	@IsPublished BIT,
+	@CanExpire BIT,
+	@ExpireDuration INT,
+	@RoleToAdd VARCHAR(255)
+AS
+IF (@QuizId = -1)
+BEGIN
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+		(ModuleId, QuizTitle, RoleName, RoleId, PassPercentage, IsPublished, CanExpire, ExpireDuration, RoleToAdd)
+		VALUES
+			(@ModuleId, @QuizTitle, @RoleName, @RoleId, @PassPercentage, @IsPublished, @CanExpire, @ExpireDuration, @RoleToAdd)
+			
+	SELECT SCOPE_IDENTITY()
+END
+ELSE
+BEGIN
+	UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+	SET QuizTitle = @QuizTitle,
+		RoleName = @RoleName,
+		RoleId = @RoleId,
+		PassPercentage = @PassPercentage,
+		IsPublished = @IsPublished,
+		CanExpire = @CanExpire,
+		ExpireDuration = @ExpireDuration,
+		RoleToAdd = @RoleToAdd
+	WHERE QuizId = @QuizId
+	
+	SELECT @QuizId
+END
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzes]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzes]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzes]
+AS
+SELECT 
+	QuizId,
+	ModuleId,
+	QuizTitle,
+	RoleName,
+	RoleId,
+	PassPercentage,
+	IsPublished,
+	CanExpire,
+	ExpireDuration,
+	RoleToAdd
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+ORDER BY QuizId
+	
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForNotification]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForNotification]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForNotification]
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	Q.CanExpire,
+	Q.ExpireDuration,
+	RoleToAdd,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate,
+	U.FirstName,
+	U.LastName,
+	U.Email,
+	U.UserId,
+	UR.ResultId
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	INNER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+			AND UR.IsMostCurrent = 1
+			AND UR.Passed = 1
+			AND UR.ReminderSent = 0)
+	INNER JOIN {databaseOwner}[{objectQualifier}users] U
+		ON (UR.UserId = U.UserId)
+WHERE Q.IsPublished = 1
+	AND UR.ExpirationDate < DATEADD(dd, 30, GETDATE())
+ORDER BY Q.QuizTitle
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]
+	@UserId INT,
+	@ModuleId INT
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	Q.CanExpire,
+	Q.ExpireDuration,
+	Q.RoleToAdd,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate,
+	ISNULL(UR.ResultId, -1) AS "ResultId"
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	INNER JOIN {databaseOwner}[{objectQualifier}UserRoles] UsrRole
+		ON (Q.RoleId = UsrRole.RoleId AND UsrRole.UserId = @UserId)
+	LEFT OUTER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+			AND UR.IsMostCurrent = 1
+			AND UR.UserId = @UserId)
+WHERE Q.ModuleId = @ModuleId
+	AND Q.IsPublished = 1
+ORDER BY Q.QuizTitle
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]
+	@UserId INT,
+	@ModuleId INT
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	Q.CanExpire,
+	Q.ExpireDuration,
+	Q.RoleToAdd,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate,
+	ISNULL(UR.ResultId, -1) AS "ResultId"
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	LEFT OUTER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+				AND UR.IsMostCurrent = 1
+				AND UR.UserId = @UserId)
+WHERE Q.ModuleId = @ModuleId
+ORDER BY Q.QuizTitle
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuestion]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuestion]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuestion]
+	@QuestionId INT,
+	@QuizId INT,
+	@ModuleId INT,
+	@PromptText NTEXT,
+	@Answer1 NVARCHAR(500),
+	@Answer2 NVARCHAR(500),
+	@Answer3 NVARCHAR(500),
+	@Answer4 NVARCHAR(500),
+	@Answer5 NVARCHAR(500),
+	@CorrectAnswer NVARCHAR(500)
+AS
+IF(@QuestionId = -1)
+BEGIN
+	--Insert, caluclate the position
+	DECLARE @MaxPosition INT
+	
+	SELECT @MaxPosition = ISNULL(MAX(Position),0)
+	FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+	WHERE QuizId = @QuizId
+		AND ModuleId = @ModuleId
+		
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+		(QuizId, ModuleId, Position, PromptText, Answer1, Answer2, Answer3, Answer4, Answer5, CorrectAnswer)
+	VALUES
+		(@QuizId, @ModuleId, @MaxPosition + 1, @PromptText, @Answer1, @Answer2, @Answer3, @Answer4, @Answer5, @CorrectAnswer)
+END
+ELSE
+BEGIN
+	--Update
+	UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+	SET	PromptText = @PromptText,
+		Answer1 = @Answer1,
+		Answer2 = @Answer2,
+		Answer3 = @Answer3,
+		Answer4 = @Answer4,
+		Answer5 = @Answer5,
+		CorrectAnswer = @CorrectAnswer
+	WHERE QuestionId = @QuestionId
+		AND ModuleId = @ModuleId
+END
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestions]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestions]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestions]
+	@QuizId INT,
+	@ModuleId INT
+AS
+SELECT
+	QuestionId,
+	QuizId,
+	ModuleId,
+	Position,
+	PromptText,
+	Answer1,
+	Answer2,
+	Answer3,
+	Answer4,
+	Answer5,
+	CorrectAnswer
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+WHERE QuizId = @QuizId
+	AND ModuleId = @ModuleId
+Order By Position
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestion]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestion]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizQuestion]
+	@QuestionId INT,
+	@ModuleId INT
+AS
+SELECT
+	QuestionId,
+	QuizId,
+	ModuleId,
+	Position,
+	PromptText,
+	Answer1,
+	Answer2,
+	Answer3,
+	Answer4,
+	Answer5,
+	CorrectAnswer
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions]
+WHERE QuestionId = @QuestionId
+	AND ModuleId = @ModuleId
+Order By Position
+
+GO

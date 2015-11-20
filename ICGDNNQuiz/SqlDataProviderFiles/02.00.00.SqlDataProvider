@@ -1,0 +1,23 @@
+﻿
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_Report_QuizResults]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_Report_QuizResults]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_Report_QuizResults]
+	@QuizId INT
+AS
+SELECT
+	U.DisplayName,
+	QR.NumberCorrect,
+	QR.NumberIncorrect,
+	QR.Percentage,
+	QR.Passed
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] QR
+    INNER JOIN {databaseOwner}[{objectQualifier}Users] U
+	ON (QR.UserId = U.UserId)
+WHERE QR.QuizId = @QuizId
+    AND QR.IsMostCurrent = 1
+ORDER BY U.DisplayName
+
+GO
+
