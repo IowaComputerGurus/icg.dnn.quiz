@@ -6,7 +6,9 @@
 *.user
 *.userosscache
 *.sln.docstates
-*.ghostdoc.xml #Ghostdoc tracking files
+
+#GhostDoc
+*.[Gg]host[Dd]oc.xml
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
