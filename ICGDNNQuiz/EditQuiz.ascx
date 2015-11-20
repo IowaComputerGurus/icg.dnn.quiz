@@ -106,7 +106,7 @@
     </div>
     <div class="dnnFormItem" id="divExpiration" runat="server">
         <dnn:label id="lblExpireTime" runat="server" controlName="txtExpireDuration" Suffix=":" cssclass="dnnFormRequired"/>
-        <asp:TextBox ID="txtExpireDuration" runat="server" MaxLength="5" cssclass="dnnFormRequired" />
+        <asp:TextBox ID="txtExpireDuration" runat="server" MaxLength="5" text="0" cssclass="dnnFormRequired" />
         <asp:RequiredFieldValidator ID="ExpireDurationRequired" runat="server" CssClass="dnnFormMessage dnnFormError" Display="Dynamic" ControlToValidate="txtExpireDuration" resourcekey="RequiredField" />
         <asp:CompareValidator ID="ExpireDurationFormat" runat="server" CssClass="dnnFormMessage dnnFormError" Display="Dynamic" ControlToValidate="txtExpireDuration" Operator="DataTypeCheck" Type="Integer" resourcekey="NumberField" />
     </div>
@@ -137,17 +137,17 @@
             </td>
             <td>
                 <span class="Normal">Move Questions:</span><br />
-                <asp:ImageButton ID="btnMoveUp" runat="server" ImageUrl="~/images/up.gif" AlternateText="Move Up" OnClick="btnMoveUp_Click" />
+                <asp:ImageButton ID="btnMoveUp" runat="server" ImageUrl="~/images/up.gif" tooltip="Move Up" AlternateText="Move Up" OnClick="btnMoveUp_Click" />
                 <br />
-                <asp:ImageButton ID="btnMoveDown" runat="server" ImageUrl="~/images/dn.gif" AlternateText="Move down" OnClick="btnMoveDown_Click" />
+                <asp:ImageButton ID="btnMoveDown" runat="server" ImageUrl="~/images/dn.gif" tooltip="Move Down" AlternateText="Move down" OnClick="btnMoveDown_Click" />
                 <br />
                 <br />
                 <span class="Normal">Question Actions:</span><br />
-                <asp:ImageButton ID="btnEditQuestion" runat="server" ImageUrl="~/images/edit.gif" AlternateText="Edit Question" OnClick="btnEditQuestion_Click" />
+                <asp:ImageButton ID="btnEditQuestion" runat="server" ImageUrl="~/images/edit.gif" ToolTip="Edit Question" AlternateText="Edit Question" OnClick="btnEditQuestion_Click" />
                 <br />
-                <asp:ImageButton ID="btnDeleteQuestion" runat="server" ImageUrl="~/images/delete.gif" AlternateText="Delete question" OnClick="btnDeleteQuestion_Click" />
+                <asp:ImageButton ID="btnDeleteQuestion" runat="server" ImageUrl="~/images/delete.gif" ToolTip="Delete Question" AlternateText="Delete question" OnClick="btnDeleteQuestion_Click" />
                 <br />
-                <asp:ImageButton ID="btnAddQuestion" runat="server" ImageUrl="~/images/add.gif" AlternateText="Add question" OnClick="btnAddQuestion_Click" />
+                <asp:ImageButton ID="btnAddQuestion" runat="server" ImageUrl="~/images/add.gif" ToolTip="Add Question" AlternateText="Add question" OnClick="btnAddQuestion_Click" />
             </td>
         </tr>
     </table>

@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ICG.Modules.DnnQuiz</RootNamespace>
     <AssemblyName>ICG.Modules.DnnQuiz</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
@@ -24,6 +24,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,17 +46,22 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetNuke">
-      <HintPath>packages\DotNetNuke.6.0.2\lib\DotNetNuke.dll</HintPath>
+    <Reference Include="DotNetNuke, Version=7.0.0.1589, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetNuke.Core.7.0.0\lib\DotNetNuke.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationBlocks.Data">
-      <HintPath>packages\DotNetNuke.6.0.2\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetNuke.Core.7.0.0\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -80,7 +86,6 @@
     <Compile Include="Components\InfoObjects\UserQuestionAnswerInfo.cs" />
     <Compile Include="Components\InfoObjects\UserQuizDisplay.cs" />
     <Compile Include="Components\InfoObjects\UserQuizResultInfo.cs" />
-    <Compile Include="Components\Jobs\ReminderTask.cs" />
     <Compile Include="Components\Controllers\ReportingController.cs" />
     <Compile Include="Components\SqlDataProvider.cs" />
     <Compile Include="Components\Controllers\QuizController.cs" />
@@ -143,9 +148,16 @@
     <None Include="SqlDataProviderFiles\03.01.01.SqlDataProvider" />
     <Content Include="Settings.ascx" />
     <Content Include="SqlDataProviderFiles\06.01.00.SqlDataProvider" />
+    <Content Include="SqlDataProviderFiles\06.03.00.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\Uninstall.SqlDataProvider" />
     <Content Include="License.txt" />
-    <Content Include="ReleaseNotes.txt" />
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_LocalResources\ViewICGDNNQuiz.ascx.resx">

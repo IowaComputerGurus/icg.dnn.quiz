@@ -128,12 +128,6 @@ namespace ICG.Modules.DnnQuiz.Components
         /// <param name="isMostCurrent">if set to <c>true</c> [is most current].</param>
         /// <returns></returns>
         public abstract int SaveUserQuizResults(int quizId, int userId, DateTime dateTaken, string userIpAddress, int numberCorrect, int numberIncorrect, decimal percentage, bool passed, DateTime expirationDate, bool reminderSent, bool isMostCurrent);
-        public abstract void RecordNotificationSent(int resultId);
-        #endregion
-
-        #region Settings
-        public abstract IDataReader GetSettings();
-        public abstract void SaveSettings(string notificationText);
         #endregion
 
         #region Search methods

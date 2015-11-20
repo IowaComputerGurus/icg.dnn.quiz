@@ -169,23 +169,8 @@ namespace ICG.Modules.DnnQuiz.Components
         {
             return int.Parse(SqlHelper.ExecuteScalar(connectionString, GetFullyQualifiedName("SaveUserQuizResults"), quizId, userId, dateTaken, userIpAddress, numberCorrect, numberIncorrect, percentage, passed, GetNull(expirationDate), reminderSent, isMostCurrent).ToString());
         }
-        public override void RecordNotificationSent(int resultId)
-        {
-            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("RecordNotificationSent"), resultId);
-        }
         #endregion
 
-        #region Settings Methods
-        public override IDataReader GetSettings()
-        {
-            return (IDataReader)SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("GetSettings"));
-        }
-
-        public override void SaveSettings(string notificationText)
-        {
-            SqlHelper.ExecuteNonQuery(connectionString, GetFullyQualifiedName("SaveSettings"), notificationText);
-        }
-        #endregion
 
         #region Search methods
         public override IDataReader GetCounties()

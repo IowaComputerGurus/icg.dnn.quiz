@@ -1,4 +1,4 @@
-﻿<p><strong>Copyright &copy; 2007-2011 IowaComputerGurus Inc (<a href="http://www.iowacomputergurus.com" target="_blank">http://www.iowacomputergurus.com</a>)</strong></p>
+﻿<p><strong>Copyright &copy; 2007-2015 IowaComputerGurus Inc (<a href="http://www.iowacomputergurus.com" target="_blank">http://www.iowacomputergurus.com</a>)</strong></p>
 <p>Copyright Contact: webmaster@iowacomputergurus.com</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy 
    of this software and associated documentation files (the "Software"), to deal 

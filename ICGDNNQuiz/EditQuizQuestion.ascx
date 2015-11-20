@@ -5,7 +5,7 @@
 <div class="dnnForm">
     <div class="dnnFormItem">
         <dnn:Label ID="lblPromptText" runat="server" ControlName="txtPromptText" suffix=":" cssclass="dnnFormRequired" />
-        <dnn:TextEditor ID="txtPromptTextRich" runat="server"  HtmlEncode="false" />
+        <dnn:TextEditor ID="txtPromptTextRich" runat="server"  HtmlEncode="false" CssClass="QuestionEditor" />
         <asp:RequiredFieldValidator ID="PromptTextRequired" runat="server" CssClass="dnnFormMessage dnnFormError"
             Display="dynamic" ControlToValidate="txtPromptTextRich" resourcekey="PromptTextRequired" />
     </div>
