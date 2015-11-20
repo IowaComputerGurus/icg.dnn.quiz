@@ -156,35 +156,8 @@ namespace ICG.Modules.DnnQuiz.Components.Controllers
         {
             return DataProvider.Instance().SaveUserQuizResults(oInfo.QuizId, oInfo.UserId, oInfo.DateTaken, oInfo.UserIpAddress, oInfo.NumberCorrect, oInfo.NumberIncorrect, oInfo.Percentage, oInfo.Passed, oInfo.ExpirationDate, oInfo.ReminderSent, oInfo.IsMostCurrent);
         }
-        /// <summary>
-        /// Records the notification sent.
-        /// </summary>
-        /// <param name="resultId">The result id.</param>
-        public static void RecordNotificationSent(int resultId)
-        {
-            DataProvider.Instance().RecordNotificationSent(resultId);
-        }
+
         #endregion
-
-        #region Settings Info
-        /// <summary>
-        /// Gets the settings.
-        /// </summary>
-        /// <returns></returns>
-        public static SettingsInfo GetSettings()
-        {
-            return CBO.FillObject<SettingsInfo>(DataProvider.Instance().GetSettings());
-        }
-
-        /// <summary>
-        /// Saves the settings.
-        /// </summary>
-        /// <param name="oInfo">The o info.</param>
-        public static void SaveSettings(SettingsInfo oInfo)
-        {
-            DataProvider.Instance().SaveSettings(oInfo.EmailTemplate);
-        }
-        #endregion
-
+        
     }
 }

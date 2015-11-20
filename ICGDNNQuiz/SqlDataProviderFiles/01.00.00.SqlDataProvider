@@ -33,7 +33,7 @@ if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwne
 		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] WITH NOCHECK 
 			ADD CONSTRAINT [FK_{objectQualifier}ICG_DQuiz_Quizzes_{objectQualifier}Modules] 
 				FOREIGN KEY ([ModuleID]) 
-					REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID]) ON DELETE CASCADE NOT FOR REPLICATION
+					REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID]) ON DELETE CASCADE
 	END
 GO
 
@@ -65,7 +65,7 @@ if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwne
 		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_QuizQuestions] WITH NOCHECK 
 			ADD CONSTRAINT [FK_{objectQualifier}ICG_DQuiz_QuizQuestions_{objectQualifier}ICG_DQuiz_Quizzes] 
 				FOREIGN KEY ([QuizId]) 
-					REFERENCES {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] ([QuizId]) ON DELETE CASCADE NOT FOR REPLICATION
+					REFERENCES {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] ([QuizId]) ON DELETE CASCADE
 	END
 GO
 
@@ -118,7 +118,7 @@ if not exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwne
 		ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] WITH NOCHECK 
 			ADD CONSTRAINT [FK_{objectQualifier}ICG_DQuiz_UserQuizResults_{objectQualifier}ICG_DQuiz_Quizzes] 
 				FOREIGN KEY ([QuizId]) 
-					REFERENCES {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] ([QuizId]) ON DELETE CASCADE NOT FOR REPLICATION
+					REFERENCES {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] ([QuizId]) ON DELETE CASCADE
 	END
 GO
 

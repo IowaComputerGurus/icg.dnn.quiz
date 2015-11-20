@@ -1,17 +1,17 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="ICG.Modules.DNNQuiz" type="Module" version="06.01.07">
+    <package name="ICG.Modules.DNNQuiz" type="Module" version="06.03.02">
       <friendlyName>DNN Quiz</friendlyName>
       <description>A DotNetNuke Quiz Module created by IowaComputerGurus Inc. and provided to the greater DNN community</description>
       <owner>
         <name>Mitchel Sellers</name>
         <organization>IowaComputerGurus Inc.</organization>
         <url>http://www.iowacomputergurus.com</url>
-        <email>webmaster@iowacomputergurus.com</email>
+        <email>support@iowacomputergurus.com</email>
       </owner>
       <license>
         <![CDATA[
-        <p><strong>Copyright &copy; 2007-2011 IowaComputerGurus Inc (<a href="http://www.iowacomputergurus.com" target="_blank">http://www.iowacomputergurus.com</a>)</strong></p>
+        <p><strong>Copyright &copy; 2007-2015 IowaComputerGurus Inc (<a href="http://www.iowacomputergurus.com" target="_blank">http://www.iowacomputergurus.com</a>)</strong></p>
 <p>Copyright Contact: webmaster@iowacomputergurus.com</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy 
    of this software and associated documentation files (the "Software"), to deal 
@@ -32,16 +32,17 @@
       </license>
       <releaseNotes>
         <![CDATA[
-        <p>Full version history informaiton can be found on CodePlex <a href="https://dnnquizicg.codeplex.com/releases" target="_blank">here.</a></p>
+        <p>Full version history informaiton can be found on CodePlex <a href="https://github.com/IowaComputerGurus/icg.dnn.quiz" target="_blank">here.</a></p>
         ]]>
       </releaseNotes>
+      <azureCompatible>true</azureCompatible>
       <dependencies>
-        <dependency type="CoreVersion">06.00.02</dependency>
+        <dependency type="CoreVersion">07.00.00</dependency>
       </dependencies>
       <components>
         <component type="ResourceFile">
           <resourceFiles>
-            <basePath>DesktopModules\ICGDNNQuiz</basePath>
+            <basePath>DesktopModules\ICG\DNNQuiz</basePath>
             <resourceFile>
               <name>Resources.zip</name>
             </resourceFile>
@@ -50,7 +51,7 @@
 
         <component type="Script">
           <scripts>
-            <basePath>DesktopModules\ICGDNNQuiz</basePath>
+            <basePath>DesktopModules\ICG\DNNQuiz</basePath>
             <script type="Install">
               <path>SqlDataProviderFiles</path>
               <name>01.00.00.SqlDataProvider</name>
@@ -91,6 +92,11 @@
               <name>06.01.00.SqlDataProvider</name>
               <version>06.01.00</version>
             </script>
+            <script type="Install">
+              <path>SqlDataProviderFiles</path>
+              <name>06.03.00.SqlDataProvider</name>
+              <version>06.03.00</version>
+            </script>
             <script type="UnInstall">
               <path>SqlDataProviderFiles</path>
               <name>Uninstall.SqlDataProvider</name>
@@ -98,11 +104,123 @@
             </script>
           </scripts>
         </component>
+        <component type="Cleanup" version="06.03.02">
+          <files>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\App_LocalResources</path>
+              <name>CompletionCertificate.ascx.resx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\App_LocalResources</path>
+              <name>EditQuiz.ascx.resx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\App_LocalResources</path>
+              <name>EditQuizQuestion.ascx.resx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\App_LocalResources</path>
+              <name>Settings.ascx.resx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\App_LocalResources</path>
+              <name>TakeQuiz.ascx.resx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\App_LocalResources</path>
+              <name>ViewICGDNNQuiz.ascx.resx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\App_LocalResources</path>
+              <name>ViewQuizResults.ascx.resx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\SqlDataProviderFiles</path>
+              <name>01.00.00.sqldataprovider</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\SqlDataProviderFiles</path>
+              <name>01.01.00.sqldataprovider</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\SqlDataProviderFiles</path>
+              <name>01.02.01.sqldataprovider</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\SqlDataProviderFiles</path>
+              <name>02.00.00.sqldataprovider</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\SqlDataProviderFiles</path>
+              <name>02.05.00.sqldataprovider</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\SqlDataProviderFiles</path>
+              <name>03.00.00.sqldataprovider</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\SqlDataProviderFiles</path>
+              <name>03.01.01.sqldataprovider</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\SqlDataProviderFiles</path>
+              <name>06.01.00.sqldataprovider</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz\SqlDataProviderFiles</path>
+              <name>Uninstall.sqldataprovider</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>CompletionCertificate.ascx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>EditQuiz.ascx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>EditQuizQuestion.ascx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>License.txt</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>module.css</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>ReleaseNotes.txt</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>Resources.zip.manifest</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>Settings.ascx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>TakeQuiz.ascx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>ViewICGDNNQuiz.ascx</name>
+            </file>
+            <file>
+              <path>desktopmodules\ICGDNNQuiz</path>
+              <name>ViewQuizResults.ascx</name>
+            </file>
+          </files>
+        </component>
 
         <component type="Module">
           <desktopModule>
             <moduleName>ICG.Modules.DNNQuiz</moduleName>
-            <foldername>ICGDNNQuiz</foldername>
+            <foldername>ICG\DNNQuiz</foldername>
             <supportedFeatures />
             <moduleDefinitions>
               <moduleDefinition>
@@ -111,7 +229,7 @@
                 <moduleControls>
                   <moduleControl>
                     <controlKey />
-                    <controlSrc>DesktopModules/ICGDNNQuiz/ViewICGDNNQuiz.ascx</controlSrc>
+                    <controlSrc>DesktopModules/ICG/DNNQuiz/ViewICGDNNQuiz.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle />
                     <controlType>View</controlType>
@@ -121,7 +239,7 @@
                   </moduleControl>
                   <moduleControl>
                     <controlKey>Settings</controlKey>
-                    <controlSrc>DesktopModules/ICGDNNQuiz/Settings.ascx</controlSrc>
+                    <controlSrc>DesktopModules/ICG/DNNQuiz/Settings.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle />
                     <controlType>Edit</controlType>
@@ -131,7 +249,7 @@
                   </moduleControl>
                   <moduleControl>
                     <controlKey>Edit</controlKey>
-                    <controlSrc>DesktopModules/ICGDNNQuiz/EditQuiz.ascx</controlSrc>
+                    <controlSrc>DesktopModules/ICG/DNNQuiz/EditQuiz.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle>Edit Quiz</controlTitle>
                     <controlType>Edit</controlType>
@@ -141,7 +259,7 @@
                   </moduleControl>
                   <moduleControl>
                     <controlKey>EditQuestion</controlKey>
-                    <controlSrc>DesktopModules/ICGDNNQuiz/EditQuizQuestion.ascx</controlSrc>
+                    <controlSrc>DesktopModules/ICG/DNNQuiz/EditQuizQuestion.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <supportsPopUps>False</supportsPopUps>
                     <controlTitle>Edit Quiz Question</controlTitle>
@@ -151,7 +269,7 @@
                   </moduleControl>
                   <moduleControl>
                     <controlKey>QuizCert</controlKey>
-                    <controlSrc>DesktopModules/ICGDNNQuiz/CompletionCertificate.ascx</controlSrc>
+                    <controlSrc>DesktopModules/ICG/DNNQuiz/CompletionCertificate.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle>Completion Certificate</controlTitle>
                     <controlType>View</controlType>
@@ -160,7 +278,7 @@
                   </moduleControl>
                   <moduleControl>
                     <controlKey>QuizResults</controlKey>
-                    <controlSrc>DesktopModules/ICGDNNQuiz/ViewQuizResults.ascx</controlSrc>
+                    <controlSrc>DesktopModules/ICG/DNNQuiz/ViewQuizResults.ascx</controlSrc>
                     <supportsPartialRendering>True</supportsPartialRendering>
                     <controlTitle>Quiz Result Summary Report</controlTitle>
                     <controlType>Edit</controlType>
@@ -169,7 +287,7 @@
                   </moduleControl>
                   <moduleControl>
                     <controlKey>TakeQuiz</controlKey>
-                    <controlSrc>DesktopModules/ICGDNNQuiz/TakeQuiz.ascx</controlSrc>
+                    <controlSrc>DesktopModules/ICG/DNNQuiz/TakeQuiz.ascx</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle>Take Quiz</controlTitle>
                     <controlType>View</controlType>
