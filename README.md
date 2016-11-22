@@ -1,4 +1,7 @@
 # DNN Quiz
+
+[![Build status](https://ci.appveyor.com/api/projects/status/w8y4bdocxi03xng4?svg=true)](https://ci.appveyor.com/project/IowaComputerGurus/icg-dnn-quiz)
+
 A free Quiz Module for the DNN Platform (And Evoq)!
 
 ## Minimum Versions
