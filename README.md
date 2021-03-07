@@ -1,13 +1,9 @@
 # DNN Quiz
 
-[![Build status](https://ci.appveyor.com/api/projects/status/w8y4bdocxi03xng4?svg=true)](https://ci.appveyor.com/project/IowaComputerGurus/icg-dnn-quiz)
+[![Build status](https://dev.azure.com/iowacomputergurus/ICG%20Open%20Source/_apis/build/status/DNN/ICG%20DNN%20Quiz)](https://dev.azure.com/iowacomputergurus/ICG%20Open%20Source/_build/latest?definitionId=21)
 
-A free Quiz Module for the DNN Platform (And Evoq)!
+A simple Quiz module for DNN Platform and Evoq
 
-## Minimum Versions
-Starting with version 06.03.00 of DNN Quiz, we require DNN 7.0.0 or later & .NET 4.0 and later
+## Minimum DNN Platform Version
+DNN Platform 9.4.0 or later is required, along with .NET 4.7.2
 
-## Current Version (06.03.02)
-* Resolved issues with 7.x installations and Completion certificates
-* Ensured operation on Windows Azure
-* Moved folder structure for isolation
