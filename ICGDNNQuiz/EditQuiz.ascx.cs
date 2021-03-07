@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common;
@@ -59,6 +59,14 @@ namespace ICG.Modules.DnnQuiz
                             ListItem oItem = ddlAddRole.Items.FindByValue(oQuizInfo.RoleToAdd);
                             if (oItem != null)
                                 ddlAddRole.SelectedValue = oItem.Value;
+                            var mode = ddlEmailResultsMode.Items.FindByValue(oQuizInfo.EmailResultsMode.ToString());
+                            if (mode != null)
+                                ddlEmailResultsMode.SelectedValue = mode.Value;
+                            if (!string.IsNullOrEmpty(oQuizInfo.CertificateTemplatePath))
+                            {
+                                divExistingCert.Visible = true;
+                                hlExistingCertificate.NavigateUrl = oQuizInfo.CertificateTemplatePath;
+                            }
 
                             //Now, load the questions
                             LoadQuizQuestions();
@@ -153,6 +161,13 @@ namespace ICG.Modules.DnnQuiz
         {
             try
             {
+                var existingPath = hlExistingCertificate.NavigateUrl;
+                if (fleCertificateTemplate.HasFile)
+                {
+                    var newFile = $"~/DesktopModules/ICG/DNNQuiz/CertTemplate/{Guid.NewGuid()}.pdf";
+                    fleCertificateTemplate.SaveAs(Server.MapPath(newFile));
+                    existingPath = newFile;
+                }
                 var oRoleController = new RoleController();
                 var oInfo = new QuizInfo
                                 {
@@ -163,9 +178,11 @@ namespace ICG.Modules.DnnQuiz
                                     RoleId =
                                         oRoleController.GetRoleByName(PortalId, ddlViewRole.SelectedValue)
                                                        .RoleID,
+                                    EmailResultsMode = int.Parse(ddlEmailResultsMode.SelectedValue),
                                     PassPercentage = decimal.Parse(ddlPassPercentage.SelectedValue),
                                     IsPublished = chkIsPublished.Checked,
                                     CanExpire = chkExpires.Checked,
+                                    CertificateTemplatePath = existingPath,
                                     RoleToAdd = ddlAddRole.SelectedValue,
                                     AllowRetake = chkAllowRetake.Checked
                                 };

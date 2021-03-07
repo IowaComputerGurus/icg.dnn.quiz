@@ -61,7 +61,7 @@ namespace ICG.Modules.DnnQuiz.Components
 
         public abstract IDataReader GetQuizById(int quizId, int moduleId);
         public abstract IDataReader GetAllQuizzes();
-        public abstract int SaveQuiz(int quizId, int moduleId, string quizTitle, string roleName, int roleId, decimal passPercentage, bool isPublished, bool canExpire, int expireDuration, string roleToAdd, bool allowRetake);
+        public abstract int SaveQuiz(int quizId, int moduleId, string quizTitle, string roleName, int roleId, decimal passPercentage, bool isPublished, bool canExpire, int expireDuration, string roleToAdd, bool allowRetake, int emailResultsMode, string certificateTemplatePath);
 
         public abstract IDataReader GetQuizzesForUserDisplay(int userId, int moduleId);
         public abstract IDataReader GetAllQuizzesForDisplay(int userId, int moduleId);

@@ -14,6 +14,14 @@
             resourcekey="QuizTitleRequired" />
     </div>
     <div class="dnnFormItem">
+        <dnn:Label id="lblEmailResultsMode" runat="server" controlname="ddlEmailResultsMode" suffix=":" />
+        <asp:DropDownList runat="server" id="ddlEmailResultsMode">
+            <asp:ListItem Text="Do Not Email" Value="1" />
+            <asp:ListItem Text="Admin Only" Value="2" />
+            <asp:ListItem Text="Admin and Test Taker" Value="3" />
+        </asp:DropDownList>
+    </div>
+    <div class="dnnFormItem">
         <dnn:label ID="lblViewRole" runat="server" ControlName="ddlViewRole" Suffix=":"  DataTextField="RoleName" DataValueField="RoleName"/>
         <asp:DropDownList ID="ddlViewRole" runat="server" />
     </div>
@@ -109,6 +117,14 @@
         <asp:TextBox ID="txtExpireDuration" runat="server" MaxLength="5" text="0" cssclass="dnnFormRequired" />
         <asp:RequiredFieldValidator ID="ExpireDurationRequired" runat="server" CssClass="dnnFormMessage dnnFormError" Display="Dynamic" ControlToValidate="txtExpireDuration" resourcekey="RequiredField" />
         <asp:CompareValidator ID="ExpireDurationFormat" runat="server" CssClass="dnnFormMessage dnnFormError" Display="Dynamic" ControlToValidate="txtExpireDuration" Operator="DataTypeCheck" Type="Integer" resourcekey="NumberField" />
+    </div>
+    <div class="dnnFormItem">
+        <dnn:Label id="lblCertificateTemplate" runat="server" controlname="fleCertTemplate" suffix=":" />
+        <asp:FileUpload runat="server" id="fleCertificateTemplate"/>
+    </div>
+    <div class="dnnFormItem" runat="server" id="divExistingCert" Visible="False">
+        <dnn:Label id="lblExistingCertificateTemplate" runat="server" suffix=":" />
+        <asp:HyperLink runat="server" id="hlExistingCertificate" Text="Existing Template" />
     </div>
     <div class="dnnFormItem">
         <dnn:Label id="lblAllowRetake" runat="server" controlname="chkAllowRetake" suffix=":" />
