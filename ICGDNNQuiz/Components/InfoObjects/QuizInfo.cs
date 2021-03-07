@@ -31,6 +31,8 @@ namespace ICG.Modules.DnnQuiz.Components.InfoObjects
         /// <value>The name of the role.</value>
         public string RoleName { get; set; }
 
+        public int EmailResultsMode { get; set; }
+
         /// <summary>
         ///     Gets or sets the role id.
         /// </summary>

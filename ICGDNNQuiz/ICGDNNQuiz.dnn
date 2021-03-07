@@ -11,7 +11,7 @@
       </owner>
       <license>
         <![CDATA[
-        <p><strong>Copyright &copy; 2007-2015 IowaComputerGurus Inc (<a href="http://www.iowacomputergurus.com" target="_blank">http://www.iowacomputergurus.com</a>)</strong></p>
+        <p><strong>Copyright &copy; 2007-2021 IowaComputerGurus Inc (<a href="http://www.iowacomputergurus.com" target="_blank">http://www.iowacomputergurus.com</a>)</strong></p>
 <p>Copyright Contact: webmaster@iowacomputergurus.com</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy 
    of this software and associated documentation files (the "Software"), to deal 
@@ -37,7 +37,7 @@
       </releaseNotes>
       <azureCompatible>true</azureCompatible>
       <dependencies>
-        <dependency type="CoreVersion">07.00.00</dependency>
+        <dependency type="CoreVersion">09.03.02</dependency>
       </dependencies>
       <components>
         <component type="ResourceFile">
@@ -96,6 +96,11 @@
               <path>SqlDataProviderFiles</path>
               <name>06.03.00.SqlDataProvider</name>
               <version>06.03.00</version>
+            </script>
+            <script type="Install">
+              <path>SqlDataProviderFiles</path>
+              <name>07.00.00.SqlDataProvider</name>
+              <version>07.00.00</version>
             </script>
             <script type="UnInstall">
               <path>SqlDataProviderFiles</path>

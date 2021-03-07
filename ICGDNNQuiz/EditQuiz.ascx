@@ -14,7 +14,7 @@
             resourcekey="QuizTitleRequired" />
     </div>
     <div class="dnnFormItem">
-        <dnn:label ID="lblViewRole" runat="server" ControlName="ddlViewRole" Suffix=":" />
+        <dnn:label ID="lblViewRole" runat="server" ControlName="ddlViewRole" Suffix=":"  DataTextField="RoleName" DataValueField="RoleName"/>
         <asp:DropDownList ID="ddlViewRole" runat="server" />
     </div>
     <div class="dnnFormItem">
@@ -95,7 +95,7 @@
     </div>
     <div class="dnnFormItem">
         <dnn:label ID="lblAddRoleOnPass" runat="server" ControlName="ddlAddRole" Suffix=":" />
-        <asp:DropDownList ID="ddlAddRole" runat="server" AppendDataBoundItems="true">
+        <asp:DropDownList ID="ddlAddRole" runat="server" AppendDataBoundItems="true" DataTextField="RoleName" DataValueField="RoleName">
                 <asp:ListItem Text="Do Not Add Role" Value="-1" />
             </asp:DropDownList>
     </div>

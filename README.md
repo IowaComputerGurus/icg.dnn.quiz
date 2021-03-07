@@ -5,5 +5,5 @@
 A simple Quiz module for DNN Platform and Evoq
 
 ## Minimum DNN Platform Version
-DNN Platform 9.4.0 or later is required, along with .NET 4.7.2
+DNN Platform 9.3.2 or later is required, along with .NET 4.7.2
 

@@ -120,10 +120,10 @@ namespace ICG.Modules.DnnQuiz
         private void BindRoleList()
         {
             var oRoleController = new RoleController();
-            string[] oRoles = oRoleController.GetRoleNames(PortalId);
-            ddlViewRole.DataSource = oRoles;
+            var rolesList = oRoleController.GetRoles(PortalId);
+            ddlViewRole.DataSource = rolesList;
             ddlViewRole.DataBind();
-            ddlAddRole.DataSource = oRoles;
+            ddlAddRole.DataSource = rolesList;
             ddlAddRole.DataBind();
         }
 
