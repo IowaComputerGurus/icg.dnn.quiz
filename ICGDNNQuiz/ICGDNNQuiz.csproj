@@ -83,7 +83,6 @@
     <Compile Include="Components\InfoObjects\QuizNotificationInfo.cs" />
     <Compile Include="Components\InfoObjects\QuizQuestionInfo.cs" />
     <Compile Include="Components\InfoObjects\QuizResultsReportInfo.cs" />
-    <Compile Include="Components\InfoObjects\SettingsInfo.cs" />
     <Compile Include="Components\InfoObjects\UserQuestionAnswerInfo.cs" />
     <Compile Include="Components\InfoObjects\UserQuizDisplay.cs" />
     <Compile Include="Components\InfoObjects\UserQuizResultInfo.cs" />

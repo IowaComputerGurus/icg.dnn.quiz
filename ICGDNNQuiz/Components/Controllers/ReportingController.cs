@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2007-2011 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
+ * Copyright (c) 2007-2021 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
  * Copyright Contact: webmaster@iowacomputergurus.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 

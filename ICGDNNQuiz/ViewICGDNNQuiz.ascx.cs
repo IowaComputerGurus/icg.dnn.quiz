@@ -36,21 +36,21 @@ namespace ICG.Modules.DnnQuiz
                 if (UserInfo.UserID > 0)
                 {
                     //Try to get the quizzes
-                    List<UserQuizDisplay> oQuizzes;
+                    List<UserQuizDisplay> quizList;
 
                     //If we can edit, or the user is a superuser get all quizzes
                     if (IsEditable || UserInfo.IsSuperUser)
-                        oQuizzes = QuizController.GetAllQuizzesForDisplay(UserId, ModuleId);
+                        quizList = QuizController.GetAllQuizzesForDisplay(UserId, ModuleId);
                     else
                     {
                         //Otherwise get my quizzes!
-                        oQuizzes = QuizController.GetQuizzesForUserDisplay(UserId, ModuleId);
+                        quizList = QuizController.GetQuizzesForUserDisplay(UserId, ModuleId);
                     }
 
                     //If we have them bind and display
-                    if (oQuizzes != null && oQuizzes.Count > 0)
+                    if (quizList != null && quizList.Count > 0)
                     {
-                        rptQuizList.DataSource = oQuizzes;
+                        rptQuizList.DataSource = quizList;
                         rptQuizList.DataBind();
                         lblNoQuizzes.Visible = false;
                         lblMustLogin.Visible = false;

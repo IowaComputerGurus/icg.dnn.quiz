@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2007-2011 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
+ * Copyright (c) 2007-2021 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
  * Copyright Contact: webmaster@iowacomputergurus.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -25,7 +25,6 @@ namespace ICG.Modules.DnnQuiz.Components.InfoObjects
     /// </summary>
     public class UserQuestionAnswerInfo
     {
-        #region Public Properties
         /// <summary>
         /// Gets or sets the result id.
         /// </summary>
@@ -56,7 +55,5 @@ namespace ICG.Modules.DnnQuiz.Components.InfoObjects
         /// </summary>
         /// <value><c>true</c> if [was correct]; otherwise, <c>false</c>.</value>
         public bool WasCorrect { get; set; }
-        #endregion
-
     }
 }

@@ -39,21 +39,21 @@ namespace ICG.Modules.DnnQuiz
                     if (quizId > 0)
                     {
                         //Get the quiz info
-                        var oInfo = QuizController.GetQuizById(quizId, ModuleId);
+                        var quizInfo = QuizController.GetQuizById(quizId, ModuleId);
 
                         //Get the users completion information
-                        var oCertificate =
+                        var certBuilder =
                             new StringBuilder(Localization.GetString("CertificateTemplate", LocalResourceFile));
-                        oCertificate.Replace("[FIRSTNAME]", UserInfo.FirstName);
-                        oCertificate.Replace("[LASTNAME]", UserInfo.LastName);
-                        oCertificate.Replace("[EXPIRATIONDATE]", expiration);
-                        oCertificate.Replace("[QUIZTITLE]", oInfo.QuizTitle);
-                        oCertificate.Replace("[RESULTID]", Request.QueryString["resId"]);
-                        oCertificate.Replace("[QUIZDATE]", DateTime.Parse(expiration).AddYears(-1).ToShortDateString());
+                        certBuilder.Replace("[FIRSTNAME]", UserInfo.FirstName);
+                        certBuilder.Replace("[LASTNAME]", UserInfo.LastName);
+                        certBuilder.Replace("[EXPIRATIONDATE]", expiration);
+                        certBuilder.Replace("[QUIZTITLE]", quizInfo.QuizTitle);
+                        certBuilder.Replace("[RESULTID]", Request.QueryString["resId"]);
+                        certBuilder.Replace("[QUIZDATE]", DateTime.Parse(expiration).AddYears(-1).ToShortDateString());
 
 
                         //Update the display
-                        litCertificate.Text = oCertificate.ToString();
+                        litCertificate.Text = certBuilder.ToString();
                     }
                 }
                 catch (Exception)

@@ -19,14 +19,12 @@ namespace ICG.Modules.DnnQuiz
     /// </summary>
     public partial class TakeQuiz : PortalModuleBase
     {
-        #region Private Members (Binding Helpers)
 
         private bool _finished;
         private List<UserQuestionAnswerInfo> _answers;
         private int _quizId;
         private int _questionIndex;
 
-        #endregion
 
         /// <summary>
         ///     Handles the Load event of the Page control.
@@ -56,9 +54,9 @@ namespace ICG.Modules.DnnQuiz
                 if (!IsPostBack && _quizId > 0)
                 {
                     //Try to obtain the quiz
-                    var oQuizInfo = QuizController.GetQuizById(_quizId, ModuleId);
+                    var quizInfo = QuizController.GetQuizById(_quizId, ModuleId);
                     lblIntroText.Text = Localization.GetString("Header", LocalResourceFile)
-                                                    .Replace("[QUIZTITLE]", oQuizInfo.QuizTitle);
+                                                    .Replace("[QUIZTITLE]", quizInfo.QuizTitle);
 
                     //Bind it
                     BindAndDisplayQuestions(_quizId);

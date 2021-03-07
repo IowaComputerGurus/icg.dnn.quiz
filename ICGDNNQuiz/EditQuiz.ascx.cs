@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DotNetNuke.Common;
@@ -43,29 +42,29 @@ namespace ICG.Modules.DnnQuiz
                     if (_quizId > 0)
                     {
                         //Try to load existing quiz
-                        QuizInfo oQuizInfo = QuizController.GetQuizById(_quizId, ModuleId);
+                        var quizInfo = QuizController.GetQuizById(_quizId, ModuleId);
 
-                        if (oQuizInfo != null)
+                        if (quizInfo != null)
                         {
                             //Load successfully
-                            txtQuizTitle.Text = oQuizInfo.QuizTitle;
-                            ddlPassPercentage.SelectedValue = Math.Round(oQuizInfo.PassPercentage, 0).ToString();
-                            ddlViewRole.SelectedValue = oQuizInfo.RoleName;
-                            chkIsPublished.Checked = oQuizInfo.IsPublished;
-                            chkExpires.Checked = oQuizInfo.CanExpire;
-                            txtExpireDuration.Text = oQuizInfo.ExpireDuration.ToString();
+                            txtQuizTitle.Text = quizInfo.QuizTitle;
+                            ddlPassPercentage.SelectedValue = Math.Round(quizInfo.PassPercentage, 0).ToString();
+                            ddlViewRole.SelectedValue = quizInfo.RoleName;
+                            chkIsPublished.Checked = quizInfo.IsPublished;
+                            chkExpires.Checked = quizInfo.CanExpire;
+                            txtExpireDuration.Text = quizInfo.ExpireDuration.ToString();
                             chkExpires_CheckedChanged(sender, e);
-                            chkAllowRetake.Checked = oQuizInfo.AllowRetake;
-                            ListItem oItem = ddlAddRole.Items.FindByValue(oQuizInfo.RoleToAdd);
+                            chkAllowRetake.Checked = quizInfo.AllowRetake;
+                            ListItem oItem = ddlAddRole.Items.FindByValue(quizInfo.RoleToAdd);
                             if (oItem != null)
                                 ddlAddRole.SelectedValue = oItem.Value;
-                            var mode = ddlEmailResultsMode.Items.FindByValue(oQuizInfo.EmailResultsMode.ToString());
+                            var mode = ddlEmailResultsMode.Items.FindByValue(quizInfo.EmailResultsMode.ToString());
                             if (mode != null)
                                 ddlEmailResultsMode.SelectedValue = mode.Value;
-                            if (!string.IsNullOrEmpty(oQuizInfo.CertificateTemplatePath))
+                            if (!string.IsNullOrEmpty(quizInfo.CertificateTemplatePath))
                             {
                                 divExistingCert.Visible = true;
-                                hlExistingCertificate.NavigateUrl = oQuizInfo.CertificateTemplatePath;
+                                hlExistingCertificate.NavigateUrl = quizInfo.CertificateTemplatePath;
                             }
 
                             //Now, load the questions
@@ -127,8 +126,8 @@ namespace ICG.Modules.DnnQuiz
         /// </summary>
         private void BindRoleList()
         {
-            var oRoleController = new RoleController();
-            var rolesList = oRoleController.GetRoles(PortalId);
+            var roleController = new RoleController();
+            var rolesList = roleController.GetRoles(PortalId);
             ddlViewRole.DataSource = rolesList;
             ddlViewRole.DataBind();
             ddlAddRole.DataSource = rolesList;
@@ -142,9 +141,7 @@ namespace ICG.Modules.DnnQuiz
         {
             //Clear the list
             lstQuestions.Items.Clear();
-
-            var oQuestions = QuizController.GetQuizQuestions(_quizId, ModuleId);
-            lstQuestions.DataSource = oQuestions;
+            lstQuestions.DataSource = QuizController.GetQuizQuestions(_quizId, ModuleId);
             lstQuestions.DataTextField = "PromptText";
             lstQuestions.DataValueField = "QuestionId";
             lstQuestions.DataBind();
@@ -168,15 +165,15 @@ namespace ICG.Modules.DnnQuiz
                     fleCertificateTemplate.SaveAs(Server.MapPath(newFile));
                     existingPath = newFile;
                 }
-                var oRoleController = new RoleController();
-                var oInfo = new QuizInfo
+                var roleController = new RoleController();
+                var toSave = new QuizInfo
                                 {
                                     QuizId = _quizId,
                                     ModuleId = ModuleId,
                                     QuizTitle = txtQuizTitle.Text,
                                     RoleName = ddlViewRole.SelectedValue,
                                     RoleId =
-                                        oRoleController.GetRoleByName(PortalId, ddlViewRole.SelectedValue)
+                                        roleController.GetRoleByName(PortalId, ddlViewRole.SelectedValue)
                                                        .RoleID,
                                     EmailResultsMode = int.Parse(ddlEmailResultsMode.SelectedValue),
                                     PassPercentage = decimal.Parse(ddlPassPercentage.SelectedValue),
@@ -186,8 +183,8 @@ namespace ICG.Modules.DnnQuiz
                                     RoleToAdd = ddlAddRole.SelectedValue,
                                     AllowRetake = chkAllowRetake.Checked
                                 };
-                oInfo.ExpireDuration = oInfo.CanExpire ? int.Parse(txtExpireDuration.Text) : 0;
-                var quizId = QuizController.SaveQuiz(oInfo);
+                toSave.ExpireDuration = toSave.CanExpire ? int.Parse(txtExpireDuration.Text) : 0;
+                var quizId = QuizController.SaveQuiz(toSave);
 
                 //Redirect
                 Response.Redirect(EditUrl("quizId", quizId.ToString(), "Edit", "saved=y"));
