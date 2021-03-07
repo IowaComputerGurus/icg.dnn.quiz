@@ -375,8 +375,7 @@ namespace ICG.Modules.DnnQuiz
                     var oRoleToAdd = oRoleController.GetRoleByName(PortalId, oQuizInfo.RoleToAdd);
                     if (oRoleToAdd != null)
                     {
-                        oRoleController.AddUserRole(PortalId, UserId, oRoleToAdd.RoleID,
-                                                    oQuizInfo.CanExpire
+                        oRoleController.AddUserRole(PortalId, UserId, oRoleToAdd.RoleID, DateTime.Now, oQuizInfo.CanExpire
                                                         ? DateTime.Now.AddDays(oQuizInfo.ExpireDuration)
                                                         : Null.NullDate);
                     }
