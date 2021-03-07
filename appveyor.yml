@@ -1,9 +1,0 @@
-version: 6.3.2.{build}
-image: Visual Studio 2015
-configuration: Release
-before_build:
-- cmd: nuget restore
-build:
-  verbosity: minimal
-artifacts:
-- path: '**\*_Install.zip'
