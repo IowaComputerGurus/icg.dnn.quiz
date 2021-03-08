@@ -22,8 +22,8 @@
         </asp:DropDownList>
     </div>
     <div class="dnnFormItem">
-        <dnn:label ID="lblViewRole" runat="server" ControlName="ddlViewRole" Suffix=":"  DataTextField="RoleName" DataValueField="RoleName"/>
-        <asp:DropDownList ID="ddlViewRole" runat="server" />
+        <dnn:label ID="lblViewRole" runat="server" ControlName="ddlViewRole" Suffix=":"/>
+        <asp:DropDownList ID="ddlViewRole" runat="server" DataTextField="RoleName" DataValueField="RoleName"/>
     </div>
     <div class="dnnFormItem">
         <dnn:Label ID="lblPassPercentage" runat="server" ControlName="ddlPassPercentage" Suffix=":" />
