@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AnswerRequired.Text" xml:space="preserve">
     <value>You must select an answer for this question.</value>
@@ -153,5 +153,19 @@
   </data>
   <data name="ReturnLinkTemplate.Text" xml:space="preserve">
     <value>&lt;p&gt;&lt;a href="[RETURNLINK]"&gt;Click here&lt;/a&gt; to return to the quiz list.&lt;/p&gt;</value>
+  </data>
+  <data name="AdminEmail.Text" xml:space="preserve">
+    <value>&lt;p&gt;[QUIZNAME] was just completed by [FIRSTNAME] [LASTNAME].&lt;/p&gt;
+&lt;p&gt;They [RESULT] with a score of [SCORE]% where [REQUIREDSCORE]% was required to pass.&lt;/p&gt;</value>
+  </data>
+  <data name="AdminEmailSubject.Text" xml:space="preserve">
+    <value>[QUIZNAME] Completion Notification</value>
+  </data>
+  <data name="TakerEmail.Text" xml:space="preserve">
+    <value>&lt;p&gt;You just completed [QUIZNAME].&lt;/p&gt;
+&lt;p&gt;You [RESULT] with a score of [SCORE]% where [REQUIREDSCORE]% was required to pass.&lt;/p&gt;</value>
+  </data>
+  <data name="TakerEmailSubject.Text" xml:space="preserve">
+    <value>Your [QUIZNAME] Results</value>
   </data>
 </root>

@@ -334,6 +334,10 @@ namespace ICG.Modules.DnnQuiz
             //Declare placeholder for the result it
             int resultId;
 
+            //Setup items for final calculations/display
+            var yourScoreString = Math.Round(oResults.Percentage, 0).ToString();
+            var requiredScoreString = Math.Round(oQuizInfo.PassPercentage, 0).ToString();
+
             //Did they pass
             if (oResults.Percentage >= oQuizInfo.PassPercentage)
             {
@@ -358,9 +362,8 @@ namespace ICG.Modules.DnnQuiz
                 //Setup pass notification
                 var notification = new StringBuilder(Localization.GetString("PassTemplate", LocalResourceFile));
                 notification.Append(Localization.GetString("ReturnLinkTemplate", LocalResourceFile));
-                notification.Replace("[YOURSCORE]", Math.Round(oResults.Percentage, 0).ToString());
-                notification.Replace("[REQUIREDSCORE]",
-                                     Math.Round(oQuizInfo.PassPercentage, 0).ToString());
+                notification.Replace("[YOURSCORE]", yourScoreString);
+                notification.Replace("[REQUIREDSCORE]", requiredScoreString);
                 notification.Replace("[CERTLINK]", certificate);
                 notification.Replace("[CERTLINKPRINT]", certificate + noSkinQsParams);
                 notification.Replace("[RETURNLINK]", Globals.NavigateURL(TabId));
@@ -382,6 +385,9 @@ namespace ICG.Modules.DnnQuiz
                             new ArgumentException("Unable to add role, unable to find " + oQuizInfo.RoleName +
                                                   " role for assignment"));
                 }
+
+                //Handle Emails
+                HandleEmailNotifications(oQuizInfo, yourScoreString, requiredScoreString, "Passed");
             }
             else
             {
@@ -396,9 +402,8 @@ namespace ICG.Modules.DnnQuiz
                                                        "quizId=" + UrlUtils.EncryptParameter(_quizId.ToString()));
                 var notification = new StringBuilder(Localization.GetString("FailTemplate", LocalResourceFile));
                 notification.Append(Localization.GetString("ReturnLinkTemplate", LocalResourceFile));
-                notification.Replace("[YOURSCORE]", Math.Round(oResults.Percentage, 0).ToString());
-                notification.Replace("[REQUIREDSCORE]",
-                                     Math.Round(oQuizInfo.PassPercentage, 0).ToString());
+                notification.Replace("[YOURSCORE]", yourScoreString);
+                notification.Replace("[REQUIREDSCORE]", requiredScoreString);
                 notification.Replace("[TESTLINK]", takeQuizLink);
                 notification.Replace("[RETURNLINK]", Globals.NavigateURL(TabId));
                 lblStatus.Text = notification.ToString();
@@ -406,6 +411,9 @@ namespace ICG.Modules.DnnQuiz
                 //Setup the re-take link
                 btnTakeAgain.NavigateUrl = takeQuizLink;
                 btnTakeAgain.Visible = true;
+
+                //Handle Emails
+                HandleEmailNotifications(oQuizInfo, yourScoreString, requiredScoreString, "Failed");
             }
 
             //Hide the submit button
@@ -423,6 +431,56 @@ namespace ICG.Modules.DnnQuiz
             _finished = true;
 
             BindAndDisplayQuestions(_quizId);
+        }
+
+        private void HandleEmailNotifications(QuizInfo quiz, string yourScore, string requiredScore, string result)
+        {
+            if (quiz.EmailResultsMode <= 1)
+                return; //No emails
+
+            try
+            {
+                //Admin if 2 or 3
+                var adminMessage = new StringBuilder(Localization.GetString("AdminEmail.Text"));
+                adminMessage.Replace("[FIRSTNAME]", UserInfo.FirstName);
+                adminMessage.Replace("[LASTNAME]", UserInfo.LastName);
+                adminMessage.Replace("[QUIZNAME]", quiz.QuizTitle);
+                adminMessage.Replace("[SCORE]", yourScore);
+                adminMessage.Replace("[REQUIREDSCORE]", requiredScore);
+                adminMessage.Replace("[RESULT]", result);
+                var adminSubject = Localization.GetString("AdminEmailSubject.Text")
+                    .Replace("[QUIZNAME]", quiz.QuizTitle);
+                DotNetNuke.Services.Mail.Mail.SendEmail(PortalSettings.Email, PortalSettings.Email, adminSubject,
+                    adminMessage.ToString());
+            }
+            catch (Exception ex)
+            {
+                DotNetNuke.Services.Exceptions.Exceptions.LogException(ex);
+            }
+
+            if (quiz.EmailResultsMode != 3)
+                return; //No need to email taker
+
+            try
+            {
+                //Setup for the user
+                var takerMessage = new StringBuilder(Localization.GetString("TakerEmail.Text"));
+                takerMessage.Replace("[FIRSTNAME]", UserInfo.FirstName);
+                takerMessage.Replace("[LASTNAME]", UserInfo.LastName);
+                takerMessage.Replace("[QUIZNAME]", quiz.QuizTitle);
+                takerMessage.Replace("[SCORE]", yourScore);
+                takerMessage.Replace("[REQUIREDSCORE]", requiredScore);
+                takerMessage.Replace("[RESULT]", result);
+                var takerSubject = Localization.GetString("TakerEmailSubject.Text")
+                    .Replace("[QUIZNAME]", quiz.QuizTitle);
+                DotNetNuke.Services.Mail.Mail.SendEmail(PortalSettings.Email, PortalSettings.Email, takerSubject,
+                    takerMessage.ToString());
+            }
+            catch (Exception ex)
+            {
+                DotNetNuke.Services.Exceptions.Exceptions.LogException(ex);
+            }
+
         }
     }
 }
