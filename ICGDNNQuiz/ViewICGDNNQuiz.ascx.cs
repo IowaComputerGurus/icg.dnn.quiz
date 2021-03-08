@@ -191,7 +191,7 @@ namespace ICG.Modules.DnnQuiz
             {
                 oBuilder.Replace("[STATUS]", Localization.GetString("NotComplete", LocalResourceFile));
                 //If taken, not passed, and not allowed retake hide link
-                if (oInfo.ResultId > 0 && !oInfo.Passed && @oInfo.AllowRetake)
+                if (oInfo.ResultId > 0 && !oInfo.Passed && !oInfo.AllowRetake)
                     oBuilder.Replace("[TAKEQUIZ]", string.Empty);
                 else
                     oBuilder.Replace("[TAKEQUIZ]",
