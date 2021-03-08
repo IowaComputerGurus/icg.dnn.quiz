@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ICG.Modules.DnnQuiz {
-    
-    
-    public partial class EditQuiz {
-        
+namespace ICG.Modules.DnnQuiz
+{
+
+
+    public partial class EditQuiz
+    {
+
         /// <summary>
         /// hfQuizStart control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfQuizStart;
-        
+
         /// <summary>
         /// hfQuizEnd control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfQuizEnd;
-        
+
         /// <summary>
         /// litCannotEdit control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litCannotEdit;
-        
+
         /// <summary>
         /// lblGeneralSettings control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblGeneralSettings;
-        
+
         /// <summary>
         /// lblQuizTitle control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblQuizTitle;
-        
+
         /// <summary>
         /// txtQuizTitle control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtQuizTitle;
-        
+
         /// <summary>
         /// QuizTitleRequired control.
         /// </summary>
@@ -74,7 +76,25 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator QuizTitleRequired;
-        
+
+        /// <summary>
+        /// lblEmailResultsMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblEmailResultsMode;
+
+        /// <summary>
+        /// ddlEmailResultsMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlEmailResultsMode;
+
         /// <summary>
         /// lblViewRole control.
         /// </summary>
@@ -83,7 +103,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblViewRole;
-        
+
         /// <summary>
         /// ddlViewRole control.
         /// </summary>
@@ -92,7 +112,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlViewRole;
-        
+
         /// <summary>
         /// lblPassPercentage control.
         /// </summary>
@@ -101,7 +121,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblPassPercentage;
-        
+
         /// <summary>
         /// ddlPassPercentage control.
         /// </summary>
@@ -110,7 +130,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlPassPercentage;
-        
+
         /// <summary>
         /// lblAddRoleOnPass control.
         /// </summary>
@@ -119,7 +139,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblAddRoleOnPass;
-        
+
         /// <summary>
         /// ddlAddRole control.
         /// </summary>
@@ -128,7 +148,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlAddRole;
-        
+
         /// <summary>
         /// lblExpires control.
         /// </summary>
@@ -137,7 +157,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblExpires;
-        
+
         /// <summary>
         /// chkExpires control.
         /// </summary>
@@ -146,7 +166,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkExpires;
-        
+
         /// <summary>
         /// divExpiration control.
         /// </summary>
@@ -155,7 +175,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divExpiration;
-        
+
         /// <summary>
         /// lblExpireTime control.
         /// </summary>
@@ -164,7 +184,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblExpireTime;
-        
+
         /// <summary>
         /// txtExpireDuration control.
         /// </summary>
@@ -173,7 +193,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtExpireDuration;
-        
+
         /// <summary>
         /// ExpireDurationRequired control.
         /// </summary>
@@ -182,7 +202,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator ExpireDurationRequired;
-        
+
         /// <summary>
         /// ExpireDurationFormat control.
         /// </summary>
@@ -191,7 +211,52 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CompareValidator ExpireDurationFormat;
-        
+
+        /// <summary>
+        /// lblCertificateTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblCertificateTemplate;
+
+        /// <summary>
+        /// fleCertificateTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fleCertificateTemplate;
+
+        /// <summary>
+        /// divExistingCert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divExistingCert;
+
+        /// <summary>
+        /// lblExistingCertificateTemplate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblExistingCertificateTemplate;
+
+        /// <summary>
+        /// hlExistingCertificate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hlExistingCertificate;
+
         /// <summary>
         /// lblAllowRetake control.
         /// </summary>
@@ -200,7 +265,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblAllowRetake;
-        
+
         /// <summary>
         /// chkAllowRetake control.
         /// </summary>
@@ -209,7 +274,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkAllowRetake;
-        
+
         /// <summary>
         /// lblIsPublished control.
         /// </summary>
@@ -218,7 +283,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UserControl lblIsPublished;
-        
+
         /// <summary>
         /// chkIsPublished control.
         /// </summary>
@@ -227,7 +292,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkIsPublished;
-        
+
         /// <summary>
         /// btnSave control.
         /// </summary>
@@ -236,7 +301,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnSave;
-        
+
         /// <summary>
         /// btnCancel control.
         /// </summary>
@@ -245,7 +310,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnCancel;
-        
+
         /// <summary>
         /// pnlQuestions control.
         /// </summary>
@@ -254,7 +319,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlQuestions;
-        
+
         /// <summary>
         /// lblQuestions control.
         /// </summary>
@@ -263,7 +328,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblQuestions;
-        
+
         /// <summary>
         /// lstQuestions control.
         /// </summary>
@@ -272,7 +337,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox lstQuestions;
-        
+
         /// <summary>
         /// btnMoveUp control.
         /// </summary>
@@ -281,7 +346,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton btnMoveUp;
-        
+
         /// <summary>
         /// btnMoveDown control.
         /// </summary>
@@ -290,7 +355,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton btnMoveDown;
-        
+
         /// <summary>
         /// btnEditQuestion control.
         /// </summary>
@@ -299,7 +364,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton btnEditQuestion;
-        
+
         /// <summary>
         /// btnDeleteQuestion control.
         /// </summary>
@@ -308,7 +373,7 @@ namespace ICG.Modules.DnnQuiz {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton btnDeleteQuestion;
-        
+
         /// <summary>
         /// btnAddQuestion control.
         /// </summary>

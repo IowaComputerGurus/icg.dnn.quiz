@@ -7,8 +7,6 @@ namespace ICG.Modules.DnnQuiz.Components.InfoObjects
     /// </summary>
     public class UserQuizDisplay : QuizInfo
     {
-        #region Public Properties
-
         /// <summary>
         ///     Gets or sets the percentage.
         /// </summary>
@@ -34,7 +32,5 @@ namespace ICG.Modules.DnnQuiz.Components.InfoObjects
         /// </summary>
         /// <value>The result id.</value>
         public int ResultId { get; set; }
-
-        #endregion
     }
 }

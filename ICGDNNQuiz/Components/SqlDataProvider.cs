@@ -119,9 +119,9 @@ namespace ICG.Modules.DnnQuiz.Components
         {
             return SqlHelper.ExecuteReader(connectionString, GetFullyQualifiedName("GetAllQuizzes"));
         }
-        public override int SaveQuiz(int quizId, int moduleId, string quizTitle, string roleName, int roleId, decimal passPercentage, bool isPublished, bool canExpire, int expireDuration, string roleToAdd, bool allowRetake)
+        public override int SaveQuiz(int quizId, int moduleId, string quizTitle, string roleName, int roleId, decimal passPercentage, bool isPublished, bool canExpire, int expireDuration, string roleToAdd, bool allowRetake, int emailResultsMode, string certificateTemplatePath)
         {
-            return int.Parse(SqlHelper.ExecuteScalar(connectionString, GetFullyQualifiedName("SaveQuiz"), quizId, moduleId, quizTitle, roleName, roleId, passPercentage, isPublished, canExpire, expireDuration, roleToAdd, allowRetake).ToString());
+            return int.Parse(SqlHelper.ExecuteScalar(connectionString, GetFullyQualifiedName("SaveQuiz"), quizId, moduleId, quizTitle, roleName, roleId, passPercentage, isPublished, canExpire, expireDuration, roleToAdd, allowRetake, emailResultsMode, certificateTemplatePath).ToString());
         }
 
         public override IDataReader GetQuizzesForUserDisplay(int userId, int moduleId)

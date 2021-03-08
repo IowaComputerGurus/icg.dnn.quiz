@@ -5,8 +5,6 @@
     /// </summary>
     public class QuizNotificationInfo : UserQuizDisplay
     {
-        #region Public Properties
-
         /// <summary>
         ///     Gets or sets the user id.
         /// </summary>
@@ -30,7 +28,5 @@
         /// </summary>
         /// <value>The email.</value>
         public string Email { get; set; }
-
-        #endregion
     }
 }

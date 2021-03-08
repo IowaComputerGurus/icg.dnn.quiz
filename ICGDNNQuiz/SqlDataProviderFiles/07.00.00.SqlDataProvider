@@ -1,0 +1,233 @@
+﻿IF NOT EXISTS(SELECT * FROM sys.columns WHERE Name = N'EmailResultsMode' AND Object_ID = Object_ID(N'{objectQualifier}ICG_DQuiz_Quizzes'))    
+BEGIN
+    ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+		ADD EmailResultsMode BIT NOT NULL DEFAULT 1
+END
+GO
+
+IF NOT EXISTS(SELECT * FROM sys.columns WHERE Name = N'CertificateTemplatePath' AND Object_ID = Object_ID(N'{objectQualifier}ICG_DQuiz_Quizzes'))    
+BEGIN
+    ALTER TABLE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+		ADD CertificateTemplatePath VARCHAR(1000)
+END
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizById]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizById]
+	@QuizId INT,
+	@ModuleId INT
+AS
+SELECT 
+	QuizId,
+	ModuleId,
+	QuizTitle,
+	RoleName,
+	RoleId,
+	PassPercentage,
+	IsPublished,
+	CanExpire,
+	ExpireDuration,
+	RoleToAdd,
+	AllowRetake,
+	EmailResultsMode,
+	CertificateTemplatePath
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+WHERE QuizId = @QuizId
+	AND ModuleId = @ModuleId
+	
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_SaveQuiz]
+	@QuizId INT,
+	@ModuleId INT,
+	@QuizTitle NVARCHAR(1000),
+	@RoleName NVARCHAR(255),
+	@RoleId INT,
+	@PassPercentage DECIMAL(5,2),
+	@IsPublished BIT,
+	@CanExpire BIT,
+	@ExpireDuration INT,
+	@RoleToAdd VARCHAR(255),
+	@AllowRetake BIT,
+	@EmailResultsMode INT,
+	@CertificateTemplatePath VARCHAR(1000)
+AS
+IF (@QuizId = -1)
+BEGIN
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+		(ModuleId, QuizTitle, RoleName, RoleId, PassPercentage, IsPublished, CanExpire, ExpireDuration, RoleToAdd, AllowRetake, EmailResultsMode, CertificateTemplatePath)
+		VALUES
+			(@ModuleId, @QuizTitle, @RoleName, @RoleId, @PassPercentage, @IsPublished, @CanExpire, @ExpireDuration, @RoleToAdd, @AllowRetake, @EmailResultsMode, @CertificateTemplatePath)
+			
+	SELECT SCOPE_IDENTITY()
+END
+ELSE
+BEGIN
+	UPDATE {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+	SET QuizTitle = @QuizTitle,
+		RoleName = @RoleName,
+		RoleId = @RoleId,
+		PassPercentage = @PassPercentage,
+		IsPublished = @IsPublished,
+		CanExpire = @CanExpire,
+		ExpireDuration = @ExpireDuration,
+		RoleToAdd = @RoleToAdd,
+		AllowRetake = @AllowRetake,
+		EmailResultsMode = @EmailResultsMode,
+		CertificateTemplatePath = @CertificateTemplatePath
+	WHERE QuizId = @QuizId
+	
+	SELECT @QuizId
+END
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzes]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzes]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzes]
+AS
+SELECT 
+	QuizId,
+	ModuleId,
+	QuizTitle,
+	RoleName,
+	RoleId,
+	PassPercentage,
+	IsPublished,
+	CanExpire,
+	ExpireDuration,
+	RoleToAdd,
+	AllowRetake,
+	EmailResultsMode,
+	CertificateTemplatePath
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes]
+ORDER BY QuizId
+	
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForNotification]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForNotification]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForNotification]
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	Q.CanExpire,
+	Q.ExpireDuration,
+	Q.RoleToAdd,
+	Q.AllowRetake,
+	Q.EmailResultsMode,
+	Q.CertificateTemplatePath,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate,
+	U.FirstName,
+	U.LastName,
+	U.Email,
+	U.UserId,
+	UR.ResultId
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	INNER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+			AND UR.IsMostCurrent = 1
+			AND UR.Passed = 1
+			AND UR.ReminderSent = 0)
+	INNER JOIN {databaseOwner}[{objectQualifier}users] U
+		ON (UR.UserId = U.UserId)
+WHERE Q.IsPublished = 1
+	AND UR.ExpirationDate < DATEADD(dd, 30, GETDATE())
+ORDER BY Q.QuizTitle
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetQuizzesForUserDisplay]
+	@UserId INT,
+	@ModuleId INT
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	Q.CanExpire,
+	Q.ExpireDuration,
+	Q.RoleToAdd,
+	Q.AllowRetake,
+	Q.EmailResultsMode,
+	Q.CertificateTemplatePath,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate,
+	ISNULL(UR.ResultId, -1) AS "ResultId"
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	INNER JOIN {databaseOwner}[{objectQualifier}UserRoles] UsrRole
+		ON (Q.RoleId = UsrRole.RoleId AND UsrRole.UserId = @UserId)
+	LEFT OUTER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+			AND UR.IsMostCurrent = 1
+			AND UR.UserId = @UserId)
+WHERE Q.ModuleId = @ModuleId
+	AND Q.IsPublished = 1
+ORDER BY Q.QuizTitle
+
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_DQuiz_GetAllQuizzesForDisplay]
+	@UserId INT,
+	@ModuleId INT
+AS
+SELECT 
+	Q.QuizId,
+	Q.ModuleId,
+	Q.QuizTitle,
+	Q.RoleName,
+	Q.RoleId,
+	Q.PassPercentage,
+	Q.IsPublished,
+	Q.CanExpire,
+	Q.ExpireDuration,
+	Q.RoleToAdd,
+	Q.AllowRetake,
+	Q.EmailResultsMode,
+	Q.CertificateTemplatePath,
+	UR.[Percentage],
+	ISNULL(UR.Passed, 0) AS "Passed",
+	UR.ExpirationDate,
+	ISNULL(UR.ResultId, -1) AS "ResultId"
+FROM {databaseOwner}[{objectQualifier}ICG_DQuiz_Quizzes] Q
+	LEFT OUTER JOIN {databaseOwner}[{objectQualifier}ICG_DQuiz_UserQuizResults] UR
+		ON (Q.QuizId = UR.QuizId 
+				AND UR.IsMostCurrent = 1
+				AND UR.UserId = @UserId)
+WHERE Q.ModuleId = @ModuleId
+ORDER BY Q.QuizTitle
+
+GO
+

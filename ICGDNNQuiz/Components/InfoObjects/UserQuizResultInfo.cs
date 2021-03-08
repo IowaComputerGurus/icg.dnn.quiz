@@ -7,8 +7,6 @@ namespace ICG.Modules.DnnQuiz.Components.InfoObjects
     /// </summary>
     public class UserQuizResultInfo
     {
-        #region Public Properties
-
         /// <summary>
         ///     Gets or sets the result id.
         /// </summary>
@@ -86,7 +84,5 @@ namespace ICG.Modules.DnnQuiz.Components.InfoObjects
         ///     <c>true</c> if this instance is most current; otherwise, <c>false</c>.
         /// </value>
         public bool IsMostCurrent { get; set; }
-
-        #endregion
     }
 }

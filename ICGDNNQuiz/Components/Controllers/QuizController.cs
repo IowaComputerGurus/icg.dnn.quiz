@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2011 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
+ * Copyright (c) 2007-2021 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
  * Copyright Contact: webmaster@iowacomputergurus.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -52,7 +52,7 @@ namespace ICG.Modules.DnnQuiz.Components.Controllers
         /// <returns></returns>
         public static int SaveQuiz(QuizInfo oInfo)
         {
-            return DataProvider.Instance().SaveQuiz(oInfo.QuizId, oInfo.ModuleId, oInfo.QuizTitle, oInfo.RoleName, oInfo.RoleId, oInfo.PassPercentage, oInfo.IsPublished, oInfo.CanExpire, oInfo.ExpireDuration, oInfo.RoleToAdd, oInfo.AllowRetake);
+            return DataProvider.Instance().SaveQuiz(oInfo.QuizId, oInfo.ModuleId, oInfo.QuizTitle, oInfo.RoleName, oInfo.RoleId, oInfo.PassPercentage, oInfo.IsPublished, oInfo.CanExpire, oInfo.ExpireDuration, oInfo.RoleToAdd, oInfo.AllowRetake, oInfo.EmailResultsMode, oInfo.CertificateTemplatePath);
         }
 
         /// <summary>

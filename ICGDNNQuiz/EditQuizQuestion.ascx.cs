@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007-2011 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
+ * Copyright (c) 2007-2021 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
  * Copyright Contact: webmaster@iowacomputergurus.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -33,18 +33,14 @@ namespace ICG.Modules.DnnQuiz
     /// </summary>
     public partial class EditQuizQuestion : PortalModuleBase
     {
-        #region Private Data Members
         private int _questionId = -1;
         private int _quizId = -1;
-        #endregion
 
-        #region Fixes for DNN 
 
         /// <summary>
         /// DotNetNuke Text Editor Declaration for Runtime Support.  DO NOT REMOVE!!
         /// </summary>
         protected TextEditor txtPromptTextRich;
-        #endregion
 
         /// <summary>
         /// Handles the Load event of the Page control.
@@ -64,27 +60,27 @@ namespace ICG.Modules.DnnQuiz
                 if (_questionId > 0 && _quizId > 0)
                 {
                     //Load the question
-                    var oInfo = QuizController.GetQuizQuestion(_questionId, this.ModuleId);
+                    var questionInfo = QuizController.GetQuizQuestion(_questionId, this.ModuleId);
 
-                    if (oInfo != null)
+                    if (questionInfo != null)
                     {
-                        txtPromptTextRich.Text = oInfo.PromptText;
-                        txtAnswer1.Text = oInfo.Answer1;
-                        txtAnswer2.Text = oInfo.Answer2;
-                        txtAnswer3.Text = oInfo.Answer3;
-                        txtAnswer4.Text = oInfo.Answer4;
-                        txtAnswer5.Text = oInfo.Answer5;
+                        txtPromptTextRich.Text = questionInfo.PromptText;
+                        txtAnswer1.Text = questionInfo.Answer1;
+                        txtAnswer2.Text = questionInfo.Answer2;
+                        txtAnswer3.Text = questionInfo.Answer3;
+                        txtAnswer4.Text = questionInfo.Answer4;
+                        txtAnswer5.Text = questionInfo.Answer5;
 
                         //Take action for correct answers
-                        if (oInfo.CorrectAnswer.Equals(txtAnswer1.Text))
+                        if (questionInfo.CorrectAnswer.Equals(txtAnswer1.Text))
                             ddlCorrectAnswer.SelectedValue = "1";
-                        else if (oInfo.CorrectAnswer.Equals(txtAnswer2.Text))
+                        else if (questionInfo.CorrectAnswer.Equals(txtAnswer2.Text))
                             ddlCorrectAnswer.SelectedValue = "2";
-                        else if (oInfo.CorrectAnswer.Equals(txtAnswer3.Text))
+                        else if (questionInfo.CorrectAnswer.Equals(txtAnswer3.Text))
                             ddlCorrectAnswer.SelectedValue = "3";
-                        else if (oInfo.CorrectAnswer.Equals(txtAnswer4.Text))
+                        else if (questionInfo.CorrectAnswer.Equals(txtAnswer4.Text))
                             ddlCorrectAnswer.SelectedValue = "4";
-                        else if (oInfo.CorrectAnswer.Equals(txtAnswer5.Text))
+                        else if (questionInfo.CorrectAnswer.Equals(txtAnswer5.Text))
                             ddlCorrectAnswer.SelectedValue = "5";
                     }
                     else
@@ -131,7 +127,7 @@ namespace ICG.Modules.DnnQuiz
                     if (IsAnswerListValid())
                     {
                         //We can now save the question
-                        var oInfo = new QuizQuestionInfo
+                        var toSave = new QuizQuestionInfo
                                         {
                                             QuestionId = _questionId,
                                             QuizId = _quizId,
@@ -148,24 +144,24 @@ namespace ICG.Modules.DnnQuiz
                         switch (ddlCorrectAnswer.SelectedValue)
                         {
                             case "1":
-                                oInfo.CorrectAnswer = txtAnswer1.Text;
+                                toSave.CorrectAnswer = txtAnswer1.Text;
                                 break;
                             case "2":
-                                oInfo.CorrectAnswer = txtAnswer2.Text;
+                                toSave.CorrectAnswer = txtAnswer2.Text;
                                 break;
                             case "3":
-                                oInfo.CorrectAnswer = txtAnswer3.Text;
+                                toSave.CorrectAnswer = txtAnswer3.Text;
                                 break;
                             case "4":
-                                oInfo.CorrectAnswer = txtAnswer4.Text;
+                                toSave.CorrectAnswer = txtAnswer4.Text;
                                 break;
                             case "5":
-                                oInfo.CorrectAnswer = txtAnswer5.Text;
+                                toSave.CorrectAnswer = txtAnswer5.Text;
                                 break;
                         }
                       
                         //Persist value
-                        QuizController.SaveQuestion(oInfo);
+                        QuizController.SaveQuestion(toSave);
 
                         //Call cancel to redirect
                         btnCancel_Click(sender, e);
@@ -174,7 +170,6 @@ namespace ICG.Modules.DnnQuiz
             }
         }
 
-        #region Validation Methods
         /// <summary>
         /// Validates that the selected option actually has a value.
         /// </summary>
@@ -250,6 +245,5 @@ namespace ICG.Modules.DnnQuiz
             //Return results
             return returnValue;
         }
-        #endregion
     }
 }

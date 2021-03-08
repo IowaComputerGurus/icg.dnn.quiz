@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ICG.Modules.DnnQuiz</RootNamespace>
     <AssemblyName>ICG.Modules.DnnQuiz</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
@@ -25,6 +25,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,15 +46,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetNuke, Version=7.0.0.1589, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetNuke.Core.7.0.0\lib\DotNetNuke.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="DotNetNuke, Version=9.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetNuke.Core.9.3.2\lib\net45\DotNetNuke.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetNuke.Core.7.0.0\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\DotNetNuke.Core.9.3.2\lib\net45\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -82,7 +83,6 @@
     <Compile Include="Components\InfoObjects\QuizNotificationInfo.cs" />
     <Compile Include="Components\InfoObjects\QuizQuestionInfo.cs" />
     <Compile Include="Components\InfoObjects\QuizResultsReportInfo.cs" />
-    <Compile Include="Components\InfoObjects\SettingsInfo.cs" />
     <Compile Include="Components\InfoObjects\UserQuestionAnswerInfo.cs" />
     <Compile Include="Components\InfoObjects\UserQuizDisplay.cs" />
     <Compile Include="Components\InfoObjects\UserQuizResultInfo.cs" />
@@ -138,7 +138,7 @@
     <None Include="BuildScripts\ModulePackage.targets" />
     <None Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.dll" />
-    <Content Include="packages.config" />
+    <None Include="packages.config" />
     <None Include="SqlDataProviderFiles\01.00.00.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\01.01.00.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\01.02.01.SqlDataProvider" />
@@ -152,6 +152,7 @@
     <Content Include="Settings.ascx" />
     <Content Include="SqlDataProviderFiles\06.01.00.SqlDataProvider" />
     <Content Include="SqlDataProviderFiles\06.03.00.SqlDataProvider" />
+    <Content Include="SqlDataProviderFiles\07.00.00.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\Uninstall.SqlDataProvider" />
     <Content Include="License.txt" />
     <Content Include="web.config" />

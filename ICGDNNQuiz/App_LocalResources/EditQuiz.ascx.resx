@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ControlTitle_edit.Text" xml:space="preserve">
     <value>Add/Edit Quiz!</value>
@@ -200,5 +200,20 @@
   </data>
   <data name="CanNotEdit.Text" xml:space="preserve">
     <value>&lt;div class="dnnFormMessage dnnFormWarning"&gt;Users have taken this quiz already. Edits are no longer allowed other than to enable/disable the quiz.  You may control this via the Settings for this module instance.&lt;/div&gt;</value>
+  </data>
+  <data name="lblCertificateTemplate.Help" xml:space="preserve">
+    <value>Optional template for a downloadable certificate for the test</value>
+  </data>
+  <data name="lblCertificateTemplate.Text" xml:space="preserve">
+    <value>Certificate Template</value>
+  </data>
+  <data name="lblEmailResultsMode.Help" xml:space="preserve">
+    <value>A configuration setting regarding the sending of an email upon completion</value>
+  </data>
+  <data name="lblEmailResultsMode.Text" xml:space="preserve">
+    <value>Email Results</value>
+  </data>
+  <data name="lblExistingCertificateTemplate.Text" xml:space="preserve">
+    <value>Existing Template</value>
   </data>
 </root>
