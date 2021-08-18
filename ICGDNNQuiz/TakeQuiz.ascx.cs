@@ -120,7 +120,7 @@ namespace ICG.Modules.DnnQuiz
                     {
                         oBuilder.Append("<li>" + current + "</li>");
                     }
-                    oBuilder.Append("</ul");
+                    oBuilder.Append("</ul>");
                     litQuestions.Text = oBuilder.ToString();
                     rblQuestions.Visible = false;
 
